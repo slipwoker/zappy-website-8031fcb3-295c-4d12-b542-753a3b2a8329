@@ -1,0 +1,675 @@
+<!DOCTYPE html><html lang="he" dir="rtl"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>שירותים - cut the crap</title>
+  <meta name="description" content="Services - cut the crap provides professional ייעוץ וניהול חווית לקוח services. Specializing in חווית לקוח (CX).">
+  <meta name="keywords" content="חווית לקוח (CX), חווית לקוח (cx), שיפור חווית לקוח לעסקים קטנים, ייעוץ חווית לקוח ישראל">
+  <meta name="robots" content="index, follow">
+  
+  <meta property="og:title" content="שירותים - cut the crap">
+  <meta property="og:description" content="Services - cut the crap provides professional ייעוץ וניהול חווית לקוח services. Specializing in חווית לקוח (CX).">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="שירותים - cut the crap">
+  <meta name="twitter:description" content="Services - cut the crap provides professional ייעוץ וניהול חווית לקוח services. Specializing in חווית לקוח (CX).">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+<!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: '8031fcb3-295c-4d12-b542-753a3b2a8329',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: #333 !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))), .sub-menu:not(:has(li)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .sub-menu.mobile-expanded { max-height: 500px !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: 44px !important; background: transparent !important; border: none !important; cursor: pointer !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+</head>
+<body>
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display:none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+  
+  <button class="phone-header-btn" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+  
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a href="/" class="logo-link">
+        <img src="/assets/cut-the-crap-logo.webp" alt="cut the crap" class="logo" />
+      </a>
+    </div>
+    
+    <ul class="nav-menu" id="navMenu"><li><a href="/services">שירותים</a></li><li><a href="/methodology">מתודולוגיה</a></li></ul>
+    
+    <div class="nav-cta-container">
+      <a href="/contact" class="nav-cta-btn">צור קשר</a>
+    </div>
+  </div>
+</nav>
+  
+  <main>
+    <section class="services-intro-section" data-layout-spec="Services-intro">
+  <div class="services-intro-container">
+    <div class="services-intro-grid">
+      <div class="services-intro-content">
+        <h2 class="services-intro-heading">שירותי ייעוץ שבנויים לשינוי אמיתי</h2>
+        <p class="services-intro-paragraph">אנחנו מאבחנים את הפערים בחווית הלקוח שלכם, מעצבים מסעות ברורים ומאפשרים לצוותים שלכם לספק שירות עקבי ומצוין. הגישה שלנו משלבת תובנות מבוססות נתונים עם עקרונות עיצוב מעשיים כדי ליצור שינוי משמעותי וארוך טווח.</p>
+        <ul class="services-intro-list">
+          <li class="services-intro-list-item">פתרון בעיות מהיר יותר והפחתת זמני המתנה</li>
+          <li class="services-intro-list-item">מסעות לקוח ברורים וקלים לניווט</li>
+          <li class="services-intro-list-item">התנהגות שירות עקבית בכל נקודות המגע</li>
+        </ul>
+      </div>
+      <div class="services-intro-image-wrapper">
+        <img data-placeholder="services-intro-image-1" data-context="Professional customer experience consulting workshop scene: bright modern office space with natural lighting, team members collaborating around a large whiteboard filled with customer journey maps and sticky notes, diverse group of consultants and business professionals engaged in strategic planning, clean and organized workspace with workshop materials, authentic and energetic atmosphere showing real business alignment and problem-solving" width="600" height="800" src="/assets/site-services-intro-image-1.webp" alt="סדנת ייעוץ חווית לקוח מקצועית" class="services-intro-image">
+      </div>
+    </div>
+  </div>
+  <div class="services-intro-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 L0,30 L600,10 L1200,30 L1200,60 Z" fill="#FFFFFF"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="services-services-section" data-layout-spec="Services-services">
+  <div class="services-container">
+    <div class="services-intro">
+      <h2>השירותים שלנו</h2>
+      <p>אנחנו מתמחים בתכנון, מדידה והטמעה של חוויות לקוח (CX) שמניבות תוצאות עסקיות מדידות. כל שירות בנוי על מתודולוגיה מוכחת ומותאם לצרכים הספציפיים של הארגון שלך.</p>
+    </div>
+    
+    <div class="services-grid">
+      <article class="service-card">
+        <div class="service-header">
+          <svg data-element-type="icon" data-icon-type="svg" class="service-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 11L12 14L22 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M21 12V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <h3>מחקר וסינתזה של מסע הלקוח</h3>
+        </div>
+        <p>מיפוי מעמיק של כל נקודות המגע עם הלקוח, זיהוי כאבים והזדמנויות לשיפור. אנחנו משלבים ראיונות עומק, תצפיות שטח וניתוח נתונים כמותיים.</p>
+        <p>התוצר: מפת מסע מפורטת עם המלצות פעולה ממוקדות, סדר עדיפויות ברור והערכת השפעה עסקית צפויה.</p>
+      </article>
+
+      <article class="service-card">
+        <div class="service-header">
+          <svg data-element-type="icon" data-icon-type="svg" class="service-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"></rect>
+            <path d="M3 9H21" stroke="currentColor" stroke-width="2"></path>
+            <path d="M9 21V9" stroke="currentColor" stroke-width="2"></path>
+          </svg>
+          <h3>תכנון תשתית שירות (Service Blueprint)</h3>
+        </div>
+        <p>פיתוח תרשימי זרימה מפורטים המתעדים את כל התהליכים, המערכות והאחריות הארגונית מאחורי חוויית הלקוח. זיהוי פערים בין החזית לעורף.</p>
+        <p>התוצר: מסמך עבודה אופרטיבי שמאפשר לכל המחלקות להבין את תפקידן במתן השירות ולזהות נקודות כשל פוטנציאליות.</p>
+      </article>
+
+      <article class="service-card">
+        <div class="service-header">
+          <svg data-element-type="icon" data-icon-type="svg" class="service-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <h3>הנחיית סדנאות אסטרטגיות</h3>
+        </div>
+        <p>תכנון והובלה של סדנאות עבודה ממוקדות תוצאות - מיישור ציפיות בין מחלקות, בניית אמפתיה ללקוח, גיבוש אסטרטגיית CX משותפת.</p>
+        <p>התוצר: החלטות ברורות, תכנית עבודה משותפת עם אחריות מוגדרת, ומחויבות ארגונית רחבה ליישום.</p>
+      </article>
+
+      <article class="service-card">
+        <div class="service-header">
+          <svg data-element-type="icon" data-icon-type="svg" class="service-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></line>
+          </svg>
+          <h3>עיצוב תוכנית Voice of Customer</h3>
+        </div>
+        <p>בניית מערכת שיטתית לאיסוף, ניתוח והפצה של משובי לקוחות בארגון. בחירת כלים, הגדרת תהליכי עבודה וחיבור לתהליכי קבלת החלטות.</p>
+        <p>התוצר: תוכנית VoC מותאמת שמבטיחה שקול הלקוח נשמע ומשפיע על שיפורים מתמשכים בחווית השירות.</p>
+      </article>
+
+      <article class="service-card">
+        <div class="service-header">
+          <svg data-element-type="icon" data-icon-type="svg" class="service-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="12" y1="20" x2="12" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="18" y1="20" x2="18" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="6" y1="20" x2="6" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+          </svg>
+          <h3>מדידת CX ומודל KPI</h3>
+        </div>
+        <p>פיתוח מערכת מדידה מקיפה שמחברת בין מדדי חווית לקוח (NPS, CSAT, CES) לתוצאות עסקיות. הגדרת יעדים, דשבורדים ותהליכי ניטור.</p>
+        <p>התוצר: מודל מדידה ברור שמאפשר לעקוב אחר השפעת שיפורי CX על הכנסות, שימור לקוחות ויעילות תפעולית.</p>
+      </article>
+
+      <article class="service-card">
+        <div class="service-header">
+          <svg data-element-type="icon" data-icon-type="svg" class="service-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 19.5C4 18.837 4.26339 18.2011 4.73223 17.7322C5.20107 17.2634 5.83696 17 6.5 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M6.5 2H20V22H6.5C5.83696 22 5.20107 21.7366 4.73223 21.2678C4.26339 20.7989 4 20.163 4 19.5V4.5C4 3.83696 4.26339 3.20107 4.73223 2.73223C5.20107 2.26339 5.83696 2 6.5 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <h3>הכשרת צוותי חזית ופלייבוקים</h3>
+        </div>
+        <p>פיתוח חומרי הדרכה מעשיים, תסריטי שיחה וכלי עזר לעובדי קו ראשון. הכשרה ממוקדת במיומנויות רכות, טיפול בתלונות ויצירת חוויות חיוביות.</p>
+        <p>התוצר: פלייבוקים ברורים שמעצימים את העובדים לספק שירות מעולה באופן עקיב, גם במצבים מאתגרים.</p>
+      </article>
+    </div>
+  </div>
+  
+  <div class="services-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,80 L0,40 Q50,35 100,42 T200,38 Q250,42 300,35 T400,40 Q450,38 500,42 T600,35 Q650,40 700,38 T800,42 Q850,35 900,40 T1000,38 Q1050,42 1100,35 T1200,40 L1200,80 Z" fill="#FFFFFF"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="services-workshops-section" data-layout-spec="Services-workshops">
+  <div class="services-workshops-separator">
+    <span class="separator-line"></span>
+    <span class="separator-line"></span>
+  </div>
+  
+  <div class="services-workshops-container">
+    <!-- Workshop Block 1: Journey Evidence Lab -->
+    <article class="workshop-block">
+      <div class="workshop-content">
+        <h2 class="workshop-main-title">סדנאות לשיפור חווית לקוח</h2>
+        
+        <div class="workshop-panel">
+          <h3 class="workshop-title">מעבדת ראיות מסע לקוח</h3>
+          <div class="workshop-details">
+            <div class="detail-item">
+              <span class="detail-label">משך:</span>
+              <span class="detail-value">יום אחד</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">מטרות:</span>
+              <p class="detail-text">מיפוי נקודות המגע הקריטיות במסע הלקוח, זיהוי פערים בחוויה הנוכחית, ואיסוף ראיות מבוססות נתונים לקבלת החלטות מושכלות.</p>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">למי מיועד:</span>
+              <p class="detail-text">מנהלי מוצר, מנהלי שירות לקוחות, ומנהלי חווית לקוח המעוניינים להבין לעומק את מסע הלקוח הקיים.</p>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">תוצרים:</span>
+              <p class="detail-text">מפת מסע לקוח מפורטת עם ראיות כמותיות ואיכותיות, רשימת נקודות כאב מתועדפות, והמלצות ראשוניות לשיפור.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="workshop-panel">
+          <h3 class="workshop-title">ספרינט Service Blueprint</h3>
+          <div class="workshop-details">
+            <div class="detail-item">
+              <span class="detail-label">משך:</span>
+              <span class="detail-value">יומיים</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">מטרות:</span>
+              <p class="detail-text">בניית תכנית שירות מקיפה המקשרת בין חזית הבמה (לקוח) לאחורי הקלעים (תהליכים פנימיים), זיהוי תלויות, ואופטימיזציה של זרימת העבודה.</p>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">למי מיועד:</span>
+              <p class="detail-text">צוותים בין-ארגוניים: תפעול, שירות, IT, ומוצר. מתאים לארגונים המעוניינים לשפר תיאום בין מחלקות.</p>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">תוצרים:</span>
+              <p class="detail-text">Service Blueprint מלא עם שכבות תהליך, רשימת תלויות ומחסומים, ותוכנית פעולה מתועדפת ליישום מיידי.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="workshop-imagery">
+        <div class="image-tile">
+          <img data-placeholder="services-workshops-image-1" data-context="Professional customer experience workshop facilitation session showing a diverse team collaborating around a table covered with colorful sticky notes, journey maps, and process diagrams. Bright natural lighting in a modern office space with glass walls. Focus on hands arranging post-its and pointing at customer journey touchpoints. Authentic business consulting atmosphere." width="600" height="700" src="/assets/site-services-workshops-image-1.webp" alt="סדנת מיפוי מסע לקוח עם צוות מקצועי">
+        </div>
+      </div>
+    </article>
+    
+    <!-- Workshop Block 2: Moments That Matter -->
+    <article class="workshop-block">
+      <div class="workshop-content">
+        <div class="workshop-panel">
+          <h3 class="workshop-title">רגעי האמת שקובעים</h3>
+          <div class="workshop-details">
+            <div class="detail-item">
+              <span class="detail-label">משך:</span>
+              <span class="detail-value">חצי יום</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">מטרות:</span>
+              <p class="detail-text">זיהוי הרגעים הקריטיים ביותר במסע הלקוח שמשפיעים על שביעות רצון ונאמנות, תיעדוף השקעות לפי השפעה עסקית, ובניית תוכנית מהירה לשיפור.</p>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">למי מיועד:</span>
+              <p class="detail-text">מנהלים בכירים ומקבלי החלטות המעוניינים להתמקד במה שבאמת משנה ללקוחות ולעסק, ללא פיזור יתר של משאבים.</p>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">תוצרים:</span>
+              <p class="detail-text">מטריצת רגעי אמת מתועדפת לפי השפעה ומאמץ, Backlog מסודר של יוזמות לשיפור חווית לקוח, ומדדי הצלחה ברורים לכל יוזמה.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="workshop-imagery">
+        <div class="image-tile">
+          <img data-placeholder="services-workshops-image-2" data-context="Close-up of a customer experience blueprint workshop in progress: whiteboard filled with service design diagrams, customer touchpoint sticky notes organized in swim lanes, and team members pointing at priority matrices. Professional business setting with markers, printed journey maps, and laptops visible. Collaborative problem-solving atmosphere for CX consulting." width="600" height="700" src="/assets/site-services-workshops-image-2.webp" alt="סדנת תכנון Service Blueprint עם דיאגרמות ותהליכים">
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="services-packages-section" data-layout-spec="Services-packages">
+  <div class="services-packages-container">
+    <div class="services-packages-header">
+      <h2>חבילות ייעוץ מותאמות אישית</h2>
+      <p>כל פרויקט הוא ייחודי. החבילות שלנו משמשות נקודת התחלה גמישה, והיקפן מותאם במדויק לצרכים, לתקציב ולזמינות של הארגון שלך.</p>
+    </div>
+
+    <div class="services-packages-grid">
+      <!-- Package 1: CX Diagnostic -->
+      <article class="package-card">
+        <div class="package-card-content">
+          <h3>אבחון CX</h3>
+          <p class="package-fit">מתאים לארגונים שרוצים להבין היכן הם עומדים ולזהות הזדמנויות לשיפור מהיר.</p>
+          <ul class="package-features">
+            <li>ניתוח מסע לקוח קיים ומיפוי נקודות כאב</li>
+            <li>סקר שביעות רצון ואיסוף תובנות מלקוחות</li>
+            <li>דוח ממצאים עם המלצות מעשיות</li>
+            <li>מפגש סיכום והצגת תובנות למנהלים</li>
+            <li>משך: 2-4 שבועות</li>
+          </ul>
+          <a href="/contact" class="btn-primary">בואו נדבר</a>
+        </div>
+      </article>
+
+      <!-- Package 2: Blueprint & Pilot -->
+      <article class="package-card package-card-featured">
+        <div class="package-card-content">
+          <h3>תכנון ופיילוט</h3>
+          <p class="package-fit">מתאים לארגונים שמוכנים לבנות אסטרטגיית חווית לקוח ולהתנסות בשיפור ממוקד.</p>
+          <ul class="package-features">
+            <li>בניית אסטרטגיית CX מקיפה ומפת דרכים</li>
+            <li>תכנון וביצוע פיילוט בנקודת מגע אחת</li>
+            <li>הכשרת צוות והטמעת תהליכי עבודה חדשים</li>
+            <li>מדידת השפעה וניתוח תוצאות ראשוניות</li>
+            <li>משך: 6-10 שבועות</li>
+          </ul>
+          <a href="/contact" class="btn-primary">בואו נדבר</a>
+        </div>
+      </article>
+
+      <!-- Package 3: Measurement & Enablement -->
+      <article class="package-card">
+        <div class="package-card-content">
+          <h3>מדידה והעצמה</h3>
+          <p class="package-fit">מתאים לארגונים שכבר יישמו שיפורים ורוצים להטמיע תרבות של מדידה ושיפור מתמשך.</p>
+          <ul class="package-features">
+            <li>הקמת מערך מדידה ומעקב אחר מדדי CX</li>
+            <li>הכשרת מנהלים וצוותים לניהול חווית לקוח עצמאית</li>
+            <li>בניית תהליכי משוב ושיפור מתמשך</li>
+            <li>ליווי והנחיה לאורך 3-6 חודשים</li>
+            <li>משך: 3-6 חודשים</li>
+          </ul>
+          <a href="/contact" class="btn-primary">בואו נדבר</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="services-packages-backplate" aria-hidden="true"></div>
+  </div>
+</section>
+
+<section class="services-cta-section" data-layout-spec="Services-cta">
+  <div class="services-cta-container">
+    <div class="services-cta-content">
+      <h2 class="services-cta-heading">בואו נעצב היקף עבודה שמתאים למציאות שלכם</h2>
+      <p class="services-cta-description">שיחה קצרה תעזור לנו להבין את המטרות והאילוצים שלכם, ולהציע תכנית עבודה ברורה ומדויקת שתתאים בדיוק לצרכים שלכם.</p>
+      <a href="/contact" class="services-cta-button">התחילו את השיחה</a>
+      
+      <div class="services-cta-steps">
+        <div class="services-cta-step">
+          <h3 class="services-cta-step-title">1. גילוי מהיר</h3>
+          <p class="services-cta-step-text">נקיים שיחה ממוקדת כדי להבין את האתגרים והמטרות שלכם.</p>
+        </div>
+        <div class="services-cta-step">
+          <h3 class="services-cta-step-title">2. תכנית מוצעת</h3>
+          <p class="services-cta-step-text">נציג תכנית עבודה מותאמת אישית עם לוחות זמנים ואבני דרך ברורות.</p>
+        </div>
+        <div class="services-cta-step">
+          <h3 class="services-cta-step-title">3. תוצרים ברורים</h3>
+          <p class="services-cta-step-text">נגדיר יחד תוצרים מדידים שיובילו לשיפור ממשי בחווית הלקוח שלכם.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+  </main>
+  
+  <footer class="site-footer"><div class="footer-container"><div class="footer-grid"><div class="footer-column footer-about"><img src="/assets/cut-the-crap-logo.webp" alt="cut the crap" class="logo" /><p class="footer-tagline">ייעוץ וניהול חווית לקוח מקצועי - ללא שטויות, רק תוצאות</p><div class="footer-social"><a href="[facebook_handle]" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a><a href="[instagram_handle]" aria-label="Instagram"><i class="fab fa-instagram"></i></a><a href="[whatsapp_handle]" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a></div></div><div class="footer-column"><h3 class="footer-heading">קישורים מהירים</h3><ul class="footer-links"><li><a href="/services">שירותים</a></li><li><a href="/methodology">מתודולוגיה</a></li><li><a href="/contact">צור קשר</a></li></ul></div><div class="footer-column"><h3 class="footer-heading">יצירת קשר</h3><ul class="footer-contact"><li><i class="fas fa-envelope"></i><a href="mailto:[business_email]">[business_email]</a></li><li><i class="fas fa-phone"></i><a href="tel:[business_phone]">[business_phone]</a></li><li><a href="/"><i class="fas fa-map-marker-alt"></i><span>[business_address]</span></a></li></ul></div><div class="footer-column"><h3 class="footer-heading">מידע משפטי</h3><ul class="footer-links"><li><a href="/privacy">מדיניות פרטיות</a></li><li><a href="/terms">תנאי שימוש</a></li><li><a href="/accessibility">הצהרת נגישות</a></li></ul></div></div><div class="footer-bottom"><p class="footer-copyright">© 2026 cut the crap. כל הזכויות שמורות.</p><a href="https://zappy5.com" target="_blank" class="zappy-attribution">Generated by Zappy</a></div></div></footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <script src="/script.js"></script>
+
+    <div data-integration="accessibility:toolbar"></div>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body></html>

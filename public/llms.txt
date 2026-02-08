@@ -1,0 +1,56 @@
+# cut the crap — Generative Engine Optimization Map
+
+> A ייעוץ וניהול חווית לקוח business.
+
+---
+
+## Pages
+
+### Home
+https://cut-the-crap-8031fcb3.zappy5.app
+
+### Services
+https://cut-the-crap-8031fcb3.zappy5.app/services
+
+### Methodology
+https://cut-the-crap-8031fcb3.zappy5.app/methodology
+
+### Contact
+https://cut-the-crap-8031fcb3.zappy5.app/contact
+
+## Legal & Policy
+
+### Privacy Policy
+https://cut-the-crap-8031fcb3.zappy5.app/privacy
+Information about how user data is collected, stored, and protected.
+
+### Terms & Conditions
+https://cut-the-crap-8031fcb3.zappy5.app/terms
+Legal terms describing service usage, rights, and policies.
+
+### Accessibility Statement
+https://cut-the-crap-8031fcb3.zappy5.app/accessibility
+Information about WCAG compliance and accessibility features.
+
+---
+
+# Business Context (for LLM understanding)
+
+## About cut the crap
+cut the crap is a business in the ייעוץ וניהול חווית לקוח industry.
+
+## Target Audience
+- מנהלי חווית לקוח
+- בעלי עסקים קטנים ובינוניים
+- משווקים דיגיטליים
+- מנהלי שירות לקוחות
+
+## Industry
+ייעוץ וניהול חווית לקוח
+
+---
+
+# Additional Resources
+
+- **Sitemap**: https://cut-the-crap-8031fcb3.zappy5.app/sitemap.xml
+- **Robots.txt**: https://cut-the-crap-8031fcb3.zappy5.app/robots.txt
